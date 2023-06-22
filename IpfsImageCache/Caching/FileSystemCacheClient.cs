@@ -4,9 +4,9 @@ internal class FileSystemCacheClient : ICacheClient
 {
     private readonly string _directory;
 
-    public FileSystemCacheClient(IWebHostEnvironment webHostEnvironment)
+    public FileSystemCacheClient(IConfiguration configuration)
     {
-        _directory = webHostEnvironment.WebRootPath;
+        _directory = Path.Combine(Directory.GetCurrentDirectory(), configuration["CacheFolder"]!);
     }
 
     public async Task<byte[]?> GetCachedBytes(string id)

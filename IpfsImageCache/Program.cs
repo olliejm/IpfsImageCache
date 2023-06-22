@@ -25,12 +25,12 @@ try
 
     builder.Host.UseSerilog((ctx, lc) =>
     {
-        lc.WriteTo.Async(wt => wt.Console());
-
         if (builder.Environment.IsProduction() && !string.IsNullOrWhiteSpace(logtailToken))
         {
             lc.WriteTo.LogtailSink(logtailToken);
         }
+
+        lc.ReadFrom.Configuration(ctx.Configuration);
     });
 
     builder.Services.AddSingleton<ICacheClient, FileSystemCacheClient>();
